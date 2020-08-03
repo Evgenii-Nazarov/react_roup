@@ -6,7 +6,7 @@ import TodoDashboard from "./todo/TodoDashboard";
 function App() {
     return (
         <div className="App">
-            <CounterDashboard/>
+            {/*<CounterDashboard/>*/}
             <TodoDashboard/>
         </div>
     );

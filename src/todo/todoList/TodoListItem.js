@@ -10,7 +10,7 @@ function TodoListItem(props) {
     const [todoEdition, setTodoEdition] = useState(todoText);
     // const [todoInputValue, setTodoInputValue] = useState(todoText);
 
-    const style = isTodoDone === true ? {'textDecoration': "line-through"} : null;
+    const style = isTodoDone === true ? {'textDecoration': "line-through", listStyleType: 'none'} : {listStyleType: 'none'};
 
     const markAsDoneButtonHandler = () => {
         todoMarkDone(todoId);
@@ -37,29 +37,34 @@ function TodoListItem(props) {
 
         <div>
 
-            {isEditMode && (<div>
-                <input type="text" value={todoEdition} onChange={editInputHandler}/>
-                <button onClick={updateButtonHandler}>update</button>
-            </div>)}
+            {isEditMode ? (
+                <div style={{ display: 'flex', flexDirection: 'row', padding:'10px'}}>
+                    <input type="text" value={todoEdition} onChange={editInputHandler}/>
+                    <button onClick={updateButtonHandler}>update</button>
+                    <button onClick={() => setIsEditMode(false)}>cancel</button>
 
-            {isTodoDone ? (
-                    <div>
-                        <div>
-                            <li style={style}>{todoText}</li>
-                            <button onClick={doAgainDoneButtonHandler}>do again</button>
-                            <button onClick={editButtonHandler}>edit</button>
-                        </div>
-                    </div>
-                ) :
-                (
-                    <div>
-                        <div>
-                            <li style={style}>{todoText}</li>
-                            <button onClick={markAsDoneButtonHandler}>mark as done</button>
-                            <button onClick={editButtonHandler}>edit</button>
-                        </div>
-                    </div>
-                )}
+                </div>) : (
+                <>
+                    {isTodoDone && !isEditMode ? (
+                            <div style={{ display: 'flex', flexDirection: 'row', padding:'10px'}}>
+                                <li style={style}>{todoText}</li>
+                                <button onClick={doAgainDoneButtonHandler}>do again</button>
+                                <button onClick={editButtonHandler}>edit</button>
+
+                            </div>
+                        ) :
+                        (
+                            <div style={{ display: 'flex', flexDirection: 'row', padding:'10px'}}>
+
+                                <li style={style}>{todoText}</li>
+                                <button onClick={markAsDoneButtonHandler}>mark as done</button>
+                                <button onClick={editButtonHandler}>edit</button>
+                            </div>
+                        )}
+                </>
+            )}
+
+
         </div>
     );
 }

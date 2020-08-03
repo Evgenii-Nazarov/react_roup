@@ -6,7 +6,12 @@ function TodoList(props) {
 
 
     return (
-        <div>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            height: '300px',
+        }}>
             {todoList.map((el) => {
                 return (
                     <TodoListItem todo={el} todoMarkDone={todoMarkDone} todoDoAgain={todoDoAgain} editTodo={editTodo}/>
