@@ -48,6 +48,7 @@ function TodoListItem(props) {
                     {isTodoDone && !isEditMode ? (
                             <div style={{ display: 'flex', flexDirection: 'row', padding:'10px'}}>
                                 <li style={style}>{todoText}</li>
+                                <input type="checkbox" checked={isTodoDone} onClick={doAgainDoneButtonHandler}/>
                                 <button onClick={doAgainDoneButtonHandler}>do again</button>
                                 <button onClick={editButtonHandler}>edit</button>
 
@@ -57,6 +58,7 @@ function TodoListItem(props) {
                             <div style={{ display: 'flex', flexDirection: 'row', padding:'10px'}}>
 
                                 <li style={style}>{todoText}</li>
+                                <input type="checkbox" checked={isTodoDone} onClick={markAsDoneButtonHandler}/>
                                 <button onClick={markAsDoneButtonHandler}>mark as done</button>
                                 <button onClick={editButtonHandler}>edit</button>
                             </div>
