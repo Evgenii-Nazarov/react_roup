@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import {Button} from "reactstrap";
 
 function TodoListItem(props) {
     const {todo, todoMarkDone, todoDoAgain, editTodo} = props;
@@ -49,7 +50,7 @@ function TodoListItem(props) {
                             <div style={{ display: 'flex', flexDirection: 'row', padding:'10px'}}>
                                 <li style={style}>{todoText}</li>
                                 <input type="checkbox" checked={isTodoDone} onClick={doAgainDoneButtonHandler}/>
-                                <button onClick={doAgainDoneButtonHandler}>do again</button>
+                                <Button color='success' size='lg'  onClick={doAgainDoneButtonHandler}>do again</Button>
                                 <button onClick={editButtonHandler}>edit</button>
 
                             </div>
