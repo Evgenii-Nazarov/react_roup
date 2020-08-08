@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import {Button} from "reactstrap";
 
-function TodoListItem(props) {
-    const {todo, todoMarkDone, todoDoAgain, editTodo} = props;
+function TodoListItemNew(props) {
+    const {todo, todoMarkDone, todoDoAgain, editTodo, todoMarkUnmark} = props;
     const todoId = todo.id
     const todoText = todo.todo
     const isTodoDone = todo.isDone
@@ -21,7 +21,7 @@ function TodoListItem(props) {
     }
 
     const doAgainDoneButtonHandler = () => {
-        todoDoAgain(todoId);
+        todoMarkUnmark(todoId);
     }
 
     const editButtonHandler = () => {
@@ -49,24 +49,15 @@ function TodoListItem(props) {
 
                 </div>) : (
                 <>
-                    {isTodoDone && !isEditMode ? (
+                    {(
                             <div style={{display: 'flex', flexDirection: 'row', padding: '10px'}}>
                                 <li style={style}>{todoText}</li>
                                 <input type="checkbox" checked={isTodoDone} onClick={doAgainDoneButtonHandler}/>
-                                <Button color='success' size='lg' onClick={doAgainDoneButtonHandler}>do again</Button>
+                                <Button color='success' size='lg' onClick={doAgainDoneButtonHandler}>change</Button>
                                 <button onClick={editButtonHandler}>edit</button>
                                 {/*<button onClick={}>up</button>*/}
                             </div>
-                        ) :
-                        (
-                            <div style={{display: 'flex', flexDirection: 'row', padding: '10px'}}>
-
-                                <li style={style}>{todoText}</li>
-                                <input type="checkbox" checked={isTodoDone} onClick={markAsDoneButtonHandler}/>
-                                <button onClick={markAsDoneButtonHandler}>mark as done</button>
-                                <button onClick={editButtonHandler}>edit</button>
-                            </div>
-                        )}
+                        ) }
                 </>
             )}
 
@@ -75,4 +66,4 @@ function TodoListItem(props) {
     );
 }
 
-export default TodoListItem
+export default TodoListItemNew

@@ -19,6 +19,17 @@ function TodoDashboard() {
     //     setTodoList(updatedTodoList)
     // }
 
+    const todoMarkUnmark = (todoId) => {
+        const updatedTodoList = [...todoList].map((el) => {
+
+            if (el.id === todoId) return {...el, isDone: !(el.isDone)}
+
+            return el
+        })
+
+        setTodoList(updatedTodoList)
+    }
+
     const todoMarkDone = (todoId) => {
         const updatedTodoList = [...todoList].map((el) => {
 
@@ -55,7 +66,8 @@ function TodoDashboard() {
 
     return (
         <div>
-            <TodoList todoList={todoList} todoMarkDone={todoMarkDone} todoDoAgain={todoDoAgain} editTodo={editTodo}/>
+            <TodoList todoList={todoList} todoMarkDone={todoMarkDone} todoDoAgain={todoDoAgain} todoMarkUnmark={todoMarkUnmark}
+                      editTodo={editTodo}/>
         </div>
     );
 }

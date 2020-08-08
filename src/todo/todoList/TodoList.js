@@ -1,8 +1,9 @@
 import React from 'react'
 import TodoListItem from "./TodoListItem";
+import TodoListItemNew from "./TodoListItemNew";
 
 function TodoList(props) {
-    const {todoList, todoMarkDone, todoDoAgain, editTodo} = props;
+    const {todoList, todoMarkDone, todoDoAgain, editTodo, todoMarkUnmark} = props;
 
 
     return (
@@ -14,7 +15,10 @@ function TodoList(props) {
         }}>
             {todoList.map((el) => {
                 return (
-                    <TodoListItem todo={el} todoMarkDone={todoMarkDone} todoDoAgain={todoDoAgain} editTodo={editTodo}/>
+                    <div>
+                    {/*<TodoListItem todo={el} todoMarkDone={todoMarkDone} todoDoAgain={todoDoAgain} editTodo={editTodo}/>*/}
+                    <TodoListItemNew todoMarkUnmark={todoMarkUnmark} todo={el} todoMarkDone={todoMarkDone} todoDoAgain={todoDoAgain} editTodo={editTodo}/>
+                    </div>
                 )
             })}
         </div>
