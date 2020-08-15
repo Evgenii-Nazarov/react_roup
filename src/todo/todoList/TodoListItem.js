@@ -3,9 +3,9 @@ import {Button} from "reactstrap";
 
 function TodoListItem(props) {
     const {todo, todoMarkDone, todoDoAgain, editTodo} = props;
-    const todoId = todo.id
-    const todoText = todo.todo
-    const isTodoDone = todo.isDone
+    const todoId = todo._id
+    const todoText = todo.name
+    const isTodoDone = todo.done
 
     const [isEditMode, setIsEditMode] = useState(false);
     const [todoEdition, setTodoEdition] = useState(todoText);

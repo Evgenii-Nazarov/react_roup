@@ -1,13 +1,27 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import axios from 'axios';
 import TodoList from "./todoList/TodoList";
 
 function TodoDashboard() {
-    const initialState = [
-        {todo: 'Eat', id: Math.random(), isDone: false},
-        {todo: 'Sleep', id: Math.random(), isDone: true},
-        {todo: 'Repeat', id: Math.random(), isDone: false}]
 
-    const [todoList, setTodoList] = useState(initialState)
+    const [todoList, setTodoList] = useState([])
+
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/todo')
+            .then((res) => {
+                    console.log('RESS')
+                    console.log('rerewferw', res)
+                    setTodoList(res.data)
+                    return res
+                }
+            )
+            .catch((err) => {
+                    console.log('ERROR')
+                    return err
+                }
+            )
+    }, []);
 
     // const toDoCreate = (newTodo) => {
     //
@@ -19,10 +33,22 @@ function TodoDashboard() {
     //     setTodoList(updatedTodoList)
     // }
 
+    const raiseUp = (currentElementIndex, previousElementIndex) => {
+        if (previousElementIndex < 0 || previousElementIndex >= todoList.length) return
+
+        const updatedTodoList = todoList.map((el, index) => {
+            if (index === currentElementIndex) return todoList[previousElementIndex]
+            if (index === previousElementIndex) return todoList[currentElementIndex]
+            return el
+        })
+
+        setTodoList(updatedTodoList)
+    }
+
     const todoMarkUnmark = (todoId) => {
         const updatedTodoList = [...todoList].map((el) => {
 
-            if (el.id === todoId) return {...el, isDone: !(el.isDone)}
+            if (el._id === todoId) return {...el, done: !(el.done)}
 
             return el
         })
@@ -33,7 +59,7 @@ function TodoDashboard() {
     const todoMarkDone = (todoId) => {
         const updatedTodoList = [...todoList].map((el) => {
 
-            if (el.id === todoId) return {...el, isDone: true}
+            if (el._id === todoId) return {...el, done: true}
 
             return el
         })
@@ -44,7 +70,7 @@ function TodoDashboard() {
     const todoDoAgain = (todoId) => {
         const updatedTodoList = [...todoList].map((el) => {
 
-            if (el.id === todoId) return {...el, isDone: false}
+            if (el._id === todoId) return {...el, done: false}
 
             return el
         })
@@ -52,21 +78,51 @@ function TodoDashboard() {
         setTodoList(updatedTodoList)
     }
 
-    const editTodo = (todoId, newTodo) => {
-        const updatedTodoList = [...todoList].map((el) => {
+    const editTodo =  (todoId, newTodo) => {
 
-            if (el.id === todoId) return {...el, todo: newTodo}
+         axios.patch(`http://localhost:5000/todo/${todoId}`, {name: newTodo})
+            .then((res) => {
+                }
+            )
+            .catch((err) => {
+                    console.log('ERROR')
+                    console.log('err', err)
+                }
+            )
 
-            return el
-        })
+        axios.get('http://localhost:5000/todo')
+            .then((res) => {
+                    console.log('RESS')
+                    console.log('rerewferw', res)
+                    setTodoList(res.data)
+                    return res
+                }
+            )
+            .catch((err) => {
+                    console.log('ERROR')
+                    return err
+                }
+            )
 
-        setTodoList(updatedTodoList)
+
+        // const updatedTodoList = [...todoList].map((el) => {
+        //
+        //     if (el._id === todoId) return {...el, name: newTodo}
+        //
+        //     return el
+        // })
+        //
+        // setTodoList(updatedTodoList)
     }
 
 
     return (
         <div>
-            <TodoList todoList={todoList} todoMarkDone={todoMarkDone} todoDoAgain={todoDoAgain} todoMarkUnmark={todoMarkUnmark}
+            <TodoList todoList={todoList}
+                      todoMarkDone={todoMarkDone}
+                      todoDoAgain={todoDoAgain}
+                      todoMarkUnmark={todoMarkUnmark}
+                      raiseUp={raiseUp}
                       editTodo={editTodo}/>
         </div>
     );
