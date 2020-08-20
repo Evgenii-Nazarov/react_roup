@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import TodoList from "./todoList/TodoList";
+import Controller from "./controller/Controller";
 
 function TodoDashboard() {
 
@@ -8,6 +9,14 @@ function TodoDashboard() {
 
 
     useEffect(() => {
+
+        const response = axios.get('https://reqres.in/api/users?page=2')
+            .then((result) => {
+                return result
+            })
+        console.log('Response: ', response)
+
+
         axios.get('http://localhost:5000/todo')
             .then((res) => {
                     console.log('RESS')
@@ -17,21 +26,28 @@ function TodoDashboard() {
                 }
             )
             .catch((err) => {
-                    console.log('ERROR')
+                    // console.log('ERROR')
                     return err
                 }
             )
     }, []);
 
-    // const toDoCreate = (newTodo) => {
-    //
-    //     const newTodoList = {
-    //         id: Math.random(), todo: newTodo, isDone: false
-    //     }
-    //
-    //     const updatedTodoList = [...todoList, newTodoList]
-    //     setTodoList(updatedTodoList)
-    // }
+    const addTodo = async (newTodo) => {
+
+        await axios.post(`http://localhost:5000/todo`, {name: newTodo})
+            .then((res) => res
+            )
+            .catch((err) => err
+            )
+
+        await axios.get('http://localhost:5000/todo')
+            .then((res) => {
+                    setTodoList(res.data)
+                }
+            )
+            .catch((err) => err
+            )
+    }
 
     const raiseUp = (currentElementIndex, previousElementIndex) => {
         if (previousElementIndex < 0 || previousElementIndex >= todoList.length) return
@@ -78,9 +94,9 @@ function TodoDashboard() {
         setTodoList(updatedTodoList)
     }
 
-    const editTodo =  (todoId, newTodo) => {
+    const editTodo = (todoId, newTodo) => {
 
-         axios.patch(`http://localhost:5000/todo/${todoId}`, {name: newTodo})
+        axios.patch(`http://localhost:5000/todo/${todoId}`, {name: newTodo})
             .then((res) => {
                 }
             )
@@ -103,21 +119,14 @@ function TodoDashboard() {
                     return err
                 }
             )
-
-
-        // const updatedTodoList = [...todoList].map((el) => {
-        //
-        //     if (el._id === todoId) return {...el, name: newTodo}
-        //
-        //     return el
-        // })
-        //
-        // setTodoList(updatedTodoList)
     }
 
 
     return (
         <div>
+
+            <Controller addTodo={addTodo}/>
+
             <TodoList todoList={todoList}
                       todoMarkDone={todoMarkDone}
                       todoDoAgain={todoDoAgain}
